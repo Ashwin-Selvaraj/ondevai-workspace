@@ -9,6 +9,8 @@ import ChatPanel, { type LogMessage } from '@/components/workspace/ChatPanel';
 import EditorPanel from '@/components/workspace/EditorPanel';
 import PreviewPanel from '@/components/workspace/PreviewPanel';
 import ProjectDrawer from '@/components/workspace/ProjectDrawer';
+import ErrorBoundary from '@/components/shared/ErrorBoundary';
+import { useToast } from '@/components/shared/Toast';
 import { DEFAULT_MODEL } from '@/lib/engine/models';
 
 const EMPTY_STEPS: Record<PipelineStep, StepStatus> = {
@@ -22,6 +24,7 @@ function makeLog(type: LogMessage['type'], text: string): LogMessage {
 
 export default function WorkspaceClient() {
   const { isReady, isLoading, loadModel, selectedModel } = useEngine();
+  const { toast } = useToast();
 
   const [strategy, setStrategy] = useState<Strategy>('standard');
   const [isBuilding, setIsBuilding] = useState(false);
@@ -42,6 +45,19 @@ export default function WorkspaceClient() {
     if (!isReady && !isLoading) loadModel(selectedModel ?? DEFAULT_MODEL);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Ctrl+S → save snapshot
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        handleSave();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [project, files]);
 
   // Read ?prompt= from URL
   useEffect(() => {
@@ -147,7 +163,8 @@ export default function WorkspaceClient() {
     await saveProject({ ...project, files });
     await saveSnapshot(project.id, files);
     addLog('system', '💾 Saved.');
-  }, [project, files]);
+    toast('Snapshot saved', 'success', 2000);
+  }, [project, files, toast]);
 
   const handleAutoFix = useCallback(async (error: string) => {
     if (!isReady || !files.length) return;
@@ -164,6 +181,7 @@ export default function WorkspaceClient() {
   }
 
   return (
+    <ErrorBoundary label="workspace">
     <div style={{
       position: 'fixed',
       top: '88px', // 48px navbar + 40px toolbar
@@ -183,14 +201,18 @@ export default function WorkspaceClient() {
       {/* Three-pane layout */}
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
         {/* Chat panel — 320px fixed */}
-        <div style={{
-          width: '320px',
-          flexShrink: 0,
-          borderRight: '1px solid var(--border)',
-          overflow: 'hidden',
-          display: mobileTab !== 'chat' ? 'none' : 'flex',
-          flexDirection: 'column',
-        }} className="workspace-chat">
+        <div
+          style={{
+            width: '320px',
+            flexShrink: 0,
+            borderRight: '1px solid var(--border)',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+          className="workspace-chat"
+          data-active={mobileTab === 'chat' ? 'true' : undefined}
+        >
           <ChatPanel
             onBuild={handleBuild}
             strategy={strategy}
@@ -203,13 +225,17 @@ export default function WorkspaceClient() {
         </div>
 
         {/* Editor panel — flex-1 */}
-        <div style={{
-          flex: 1,
-          borderRight: '1px solid var(--border)',
-          overflow: 'hidden',
-          display: mobileTab !== 'code' ? 'flex' : 'flex',
-          flexDirection: 'column',
-        }} className="workspace-editor">
+        <div
+          style={{
+            flex: 1,
+            borderRight: '1px solid var(--border)',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+          className="workspace-editor"
+          data-active={mobileTab === 'code' ? 'true' : undefined}
+        >
           <EditorPanel
             files={files}
             activeFile={activeFile}
@@ -222,12 +248,16 @@ export default function WorkspaceClient() {
         </div>
 
         {/* Preview panel — flex-1 */}
-        <div style={{
-          flex: 1,
-          overflow: 'hidden',
-          display: mobileTab !== 'preview' ? 'flex' : 'flex',
-          flexDirection: 'column',
-        }} className="workspace-preview">
+        <div
+          style={{
+            flex: 1,
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+          className="workspace-preview"
+          data-active={mobileTab === 'preview' ? 'true' : undefined}
+        >
           <PreviewPanel
             code={files.find(f => f.name === activeFile)?.content ?? ''}
             onAutoFix={handleAutoFix}
@@ -278,15 +308,24 @@ export default function WorkspaceClient() {
 
       <style>{`
         @media (max-width: 768px) {
-          .workspace-chat, .workspace-editor, .workspace-preview { display: none !important; }
-          .mobile-tabs { display: flex !important; }
-        }
-        @media (max-width: 768px) {
+          .workspace-chat, .workspace-editor, .workspace-preview {
+            display: none !important;
+            width: 100% !important;
+            flex: 1 !important;
+          }
           .workspace-chat[data-active="true"],
           .workspace-editor[data-active="true"],
-          .workspace-preview[data-active="true"] { display: flex !important; }
+          .workspace-preview[data-active="true"] {
+            display: flex !important;
+          }
+          .mobile-tabs { display: flex !important; }
+        }
+        /* Smooth panel transitions */
+        .workspace-chat, .workspace-editor, .workspace-preview {
+          transition: opacity 0.15s ease;
         }
       `}</style>
     </div>
+    </ErrorBoundary>
   );
 }
