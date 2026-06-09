@@ -23,6 +23,9 @@ const nextConfig = {
   webpack: (config) => {
     config.externals = config.externals || [];
 
+    // Exclude native Node binaries (onnxruntime-node) — we use the WASM/web version
+    config.externals.push('onnxruntime-node');
+
     // Handle WASM files
     config.experiments = { ...config.experiments, asyncWebAssembly: true };
 
