@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Cpu, Download, CheckCircle } from 'lucide-react';
+import { Cpu } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'How It Works — OnDevAI',
@@ -116,28 +116,6 @@ export default function LocalPage() {
         </div>
       </section>
 
-      {/* Install PWA */}
-      <section style={{ padding: '80px 24px', maxWidth: '760px', margin: '0 auto', textAlign: 'center' }}>
-        <div style={{ width: '56px', height: '56px', background: 'var(--accent-muted)', border: '1px solid rgba(109,93,240,0.3)', borderRadius: 'var(--radius-lg)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
-          <Download size={24} color="var(--accent)" />
-        </div>
-        <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', fontWeight: 700, marginBottom: '16px', letterSpacing: '-0.02em' }}>Install as a PWA</h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '15px', lineHeight: 1.7, marginBottom: '32px' }}>
-          Click the install icon in your browser address bar (or Browser Menu → Install App). OnDevAI launches standalone, works fully offline, and loads instantly from cache.
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px', textAlign: 'left', maxWidth: '600px', margin: '0 auto 40px' }}>
-          {['Launches standalone — no browser chrome', 'Fully offline after first model load', 'Cached model weights — no re-download', 'Fast launch from dock or home screen'].map(f => (
-            <div key={f} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '13px', color: 'var(--text-secondary)' }}>
-              <CheckCircle size={14} style={{ color: 'var(--green)', flexShrink: 0, marginTop: '2px' }} />
-              {f}
-            </div>
-          ))}
-        </div>
-        <Link href="/workspace" className="btn btn-primary" style={{ fontSize: '15px', padding: '12px 32px' }}>
-          Open Workspace →
-        </Link>
-        <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--text-muted)' }}>Requires Chrome 113+ or Edge 113+ (WebGPU)</p>
-      </section>
     </div>
   );
 }
