@@ -115,9 +115,9 @@ export default function ToolRunner({ tool, onClose }: Props) {
       {/* Panel */}
       <div style={{
         position: 'fixed',
-        top: 0,
+        top: '48px',
         right: 0,
-        height: '100%',
+        height: 'calc(100% - 48px)',
         width: '480px',
         maxWidth: '100vw',
         background: 'var(--bg-surface)',
