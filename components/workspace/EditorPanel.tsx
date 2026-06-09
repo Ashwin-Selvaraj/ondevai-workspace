@@ -36,7 +36,8 @@ export default function EditorPanel({
 
     let destroyed = false;
     (async () => {
-      const { EditorView, basicSetup } = await import('@codemirror/view') as typeof import('@codemirror/view') & { basicSetup: import('@codemirror/state').Extension };
+      const { basicSetup } = await import('codemirror');
+      const { EditorView } = await import('@codemirror/view');
       const { EditorState } = await import('@codemirror/state');
       const { html } = await import('@codemirror/lang-html');
       const { oneDark } = await import('@codemirror/theme-one-dark');

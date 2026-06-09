@@ -17,6 +17,75 @@ const EMPTY_STEPS: Record<PipelineStep, StepStatus> = {
   research: 'pending', blueprint: 'pending', generate: 'pending', review: 'pending', fix: 'pending',
 };
 
+const HELLO_WORLD: import('@/lib/storage/projects').ProjectFile = {
+  name: 'index.html',
+  content: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hello World</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #08080e;
+      font-family: system-ui, sans-serif;
+      color: #e2e2f0;
+    }
+    .card {
+      text-align: center;
+      padding: 48px 64px;
+      background: #13131f;
+      border: 1px solid #2a2a3d;
+      border-radius: 16px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    }
+    .emoji { font-size: 56px; margin-bottom: 24px; }
+    h1 { font-size: 36px; font-weight: 700; margin-bottom: 12px; }
+    p { font-size: 15px; color: #8888aa; margin-bottom: 28px; }
+    button {
+      padding: 12px 32px;
+      background: #6d5df0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #5a4dd0; }
+    #msg { margin-top: 20px; font-size: 14px; color: #6d5df0; min-height: 20px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="emoji">👋</div>
+    <h1>Hello, World!</h1>
+    <p>Your on-device AI workspace is ready. Describe an app in the chat to build something new.</p>
+    <button onclick="greet()">Say Hello</button>
+    <div id="msg"></div>
+  </div>
+  <script>
+    const messages = [
+      'Hello from your browser! 🚀',
+      'No server, no cloud — pure WebGPU magic ✨',
+      'Ready to build something amazing? 🛠️',
+      'Your data never leaves this device 🔒',
+    ];
+    let idx = 0;
+    function greet() {
+      document.getElementById('msg').textContent = messages[idx++ % messages.length];
+    }
+  </script>
+</body>
+</html>`,
+};
+
 let logIdCounter = 0;
 function makeLog(type: LogMessage['type'], text: string): LogMessage {
   return { id: String(logIdCounter++), type, text };
@@ -32,13 +101,19 @@ export default function WorkspaceClient() {
   const [pipelineVisible, setPipelineVisible] = useState(false);
   const [buildLog, setBuildLog] = useState<LogMessage[]>([]);
 
-  const [files, setFiles] = useState<ProjectFile[]>([]);
+  const [files, setFiles] = useState<ProjectFile[]>([HELLO_WORLD]);
   const [activeFile, setActiveFile] = useState('index.html');
   const [project, setProject] = useState<Project | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   // Mobile: which panel is active
   const [mobileTab, setMobileTab] = useState<'chat' | 'code' | 'preview'>('chat');
+
+  // Hide global footer on workspace page
+  useEffect(() => {
+    document.body.classList.add('workspace-page');
+    return () => document.body.classList.remove('workspace-page');
+  }, []);
 
   // Auto-load model on mount
   useEffect(() => {
@@ -307,6 +382,7 @@ export default function WorkspaceClient() {
       />
 
       <style>{`
+        body.workspace-page footer { display: none !important; }
         @media (max-width: 768px) {
           .workspace-chat, .workspace-editor, .workspace-preview {
             display: none !important;
