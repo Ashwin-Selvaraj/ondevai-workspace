@@ -38,9 +38,7 @@ export default function DocsPage() {
           <nav style={{ position: 'sticky', top: '72px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
             <p style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600, marginBottom: '8px' }}>Contents</p>
             {SECTIONS.map(s => (
-              <a key={s.id} href={`#${s.id}`} style={{ fontSize: '13px', color: 'var(--text-secondary)', textDecoration: 'none', padding: '4px 8px', borderRadius: 'var(--radius-sm)' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-secondary)')}>
+              <a key={s.id} href={`#${s.id}`} className="docs-nav-link">
                 {s.title}
               </a>
             ))}
@@ -199,6 +197,17 @@ Cross-Origin-Embedder-Policy: require-corp`}</code></pre>
           </DocSection>
         </main>
       </div>
+      <style>{`
+        .docs-nav-link {
+          font-size: 13px;
+          color: var(--text-secondary);
+          text-decoration: none;
+          padding: 4px 8px;
+          border-radius: var(--radius-sm);
+          transition: color 0.15s ease;
+        }
+        .docs-nav-link:hover { color: var(--text-primary); }
+      `}</style>
     </div>
   );
 }
