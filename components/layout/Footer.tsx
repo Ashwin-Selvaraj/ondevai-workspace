@@ -95,7 +95,7 @@ export default function Footer() {
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
           <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-            © 2024 OnDevAI. Your data never leaves your device.
+            © 2026 OnDevAI. Your data never leaves your device.
           </p>
           <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
             Powered by WebGPU · WebLLM · PGlite
