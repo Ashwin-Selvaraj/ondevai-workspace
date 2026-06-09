@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Zap, Shield, Cpu, Lock, WifiOff, Package, ArrowRight, CheckCircle } from 'lucide-react';
+import StatsBar from '@/components/home/StatsBar';
 
 const TICKER_ITEMS = [
   'Plain-English prompts', 'Five-pass pipeline', 'WebGPU on-device', 'Zero cloud calls',
@@ -107,34 +108,7 @@ export default function HomePage() {
       </section>
 
       {/* ── STATS BAR ────────────────────────────────────── */}
-      <section style={{
-        borderTop: '1px solid var(--border)',
-        borderBottom: '1px solid var(--border)',
-        background: 'var(--bg-surface)',
-        padding: '36px 24px',
-      }}>
-        <div style={{
-          maxWidth: '900px',
-          margin: '0 auto',
-          display: 'flex',
-          justifyContent: 'space-around',
-          flexWrap: 'wrap',
-          gap: '28px',
-        }}>
-          {[
-            { num: '57', label: 'Tools' },
-            { num: '11', label: 'Categories' },
-            { num: '0 Bytes', label: 'to Cloud' },
-            { num: '100%', label: 'Offline' },
-            { num: '0', label: 'Sign-ups' },
-          ].map(({ num, label }) => (
-            <div key={label} style={{ textAlign: 'center' }}>
-              <p style={{ fontSize: '32px', fontWeight: 800, color: 'var(--accent)', lineHeight: 1, letterSpacing: '-0.02em' }}>{num}</p>
-              <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <StatsBar />
 
       {/* ── FEATURE TICKER ───────────────────────────────── */}
       <div style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-base)', overflow: 'hidden', padding: '14px 0' }}>

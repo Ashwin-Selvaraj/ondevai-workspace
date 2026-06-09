@@ -1,41 +1,20 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Zap, Download } from 'lucide-react';
+import { Zap } from 'lucide-react';
 
 const NAV_LINKS = [
-  { href: '/',           label: 'Home' },
   { href: '/workspace',  label: 'Workspace' },
   { href: '/toolbox',    label: 'Toolbox' },
-  { href: '/assistant',  label: 'Assistant' },
+  { href: '/assistant',  label: 'AI Chat' },
   { href: '/local',      label: 'How It Works' },
-  { href: '/use-cases',  label: 'Use Cases' },
   { href: '/docs',       label: 'Docs' },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null);
-  const [canInstall, setCanInstall] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handler = (e: Event) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-      setCanInstall(true);
-    };
-    window.addEventListener('beforeinstallprompt', handler);
-    return () => window.removeEventListener('beforeinstallprompt', handler);
-  }, []);
-
-  const handleInstall = async () => {
-    if (!deferredPrompt) return;
-    (deferredPrompt as BeforeInstallPromptEvent).prompt();
-    const { outcome } = await (deferredPrompt as BeforeInstallPromptEvent).userChoice;
-    if (outcome === 'accepted') setCanInstall(false);
-  };
 
   return (
     <nav style={{
@@ -102,12 +81,6 @@ export default function Navbar() {
 
       {/* Right side */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginLeft: 'auto' }}>
-        {canInstall && (
-          <button onClick={handleInstall} className="btn btn-secondary" style={{ fontSize: '12px', padding: '5px 10px' }}>
-            <Download size={13} />
-            Install App
-          </button>
-        )}
         <Link href="/workspace" className="btn btn-primary" style={{ fontSize: '12px', padding: '5px 12px' }}>
           Open Workspace
         </Link>
@@ -118,9 +91,4 @@ export default function Navbar() {
       `}</style>
     </nav>
   );
-}
-
-interface BeforeInstallPromptEvent extends Event {
-  prompt(): Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
