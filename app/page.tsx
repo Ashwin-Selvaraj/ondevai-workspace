@@ -50,18 +50,30 @@ export default function HomePage() {
         padding: '80px 24px',
       }}>
         <div style={{ maxWidth: '780px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '28px', flexWrap: 'wrap' }}>
-            {['No subscription', 'No sign-up', 'No pay-per-use credits'].map(t => (
-              <span key={t} style={{
-                padding: '4px 14px',
-                borderRadius: 'var(--radius-full)',
-                border: '1px solid var(--border)',
-                fontSize: '12px',
-                color: 'var(--text-secondary)',
-                background: 'var(--bg-elevated)',
-              }}>{t}</span>
-            ))}
-          </div>
+            {/* Bounty attribution pill */}
+          <a
+            href="https://vibesterz.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '5px 14px',
+              borderRadius: 'var(--radius-full)',
+              border: '1px solid var(--accent)',
+              fontSize: '12px',
+              color: 'var(--accent)',
+              background: 'var(--accent-muted)',
+              textDecoration: 'none',
+              marginBottom: '28px',
+              fontWeight: 500,
+              letterSpacing: '0.02em',
+            }}
+          >
+            <span style={{ opacity: 0.7 }}>⚡</span>
+            Pump.fun Bounty Submission · Functional replication of Vibesterz
+          </a>
 
           <h1 style={{
             fontSize: 'clamp(40px, 7vw, 72px)',
@@ -71,24 +83,24 @@ export default function HomePage() {
             letterSpacing: '-0.03em',
             color: 'var(--text-primary)',
           }}>
-            Private. Offline.{' '}
+            A functional replication{' '}
             <span style={{
               background: 'linear-gradient(135deg, var(--accent), #a78bfa)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-            }}>On-device.</span>
+            }}>of Vibesterz.</span>
           </h1>
 
           <p style={{
             fontSize: '18px',
             color: 'var(--text-secondary)',
             marginBottom: '40px',
-            maxWidth: '580px',
+            maxWidth: '600px',
             margin: '0 auto 40px',
             lineHeight: 1.7,
           }}>
-            AI tools that never touch the cloud. Build full web apps and run 60+ tools — entirely in your browser via WebGPU.
+            Proving every claim works — browser-native WebGPU app builder, on-device LLM, 5-pass pipeline, 60+ tools. Zero server. Built to validate that what Vibesterz built is real.
           </p>
 
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -310,10 +322,12 @@ export default function HomePage() {
           padding: '56px 48px',
           textAlign: 'center',
         }}>
-          <h2 style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 700, marginBottom: '14px', letterSpacing: '-0.02em' }}>Ready to build?</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '32px', fontSize: '14px', lineHeight: 1.7 }}>
-            Open the Workspace and describe your app in plain English.<br />
-            No account. No credit card. Runs on your device.
+          <h2 style={{ fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 700, marginBottom: '14px', letterSpacing: '-0.02em' }}>Open a tab and build.</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '8px', fontSize: '14px', lineHeight: 1.7 }}>
+            No account. No credit card. Runs on your GPU.
+          </p>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '32px', fontSize: '13px', lineHeight: 1.6, fontStyle: 'italic', maxWidth: '480px', margin: '0 auto 32px' }}>
+            This replication is not meant to compete with Vibesterz — it is meant to prove that what they built is real, technically sound, and as unique as they claim.
           </p>
           <Link href="/workspace" className="btn btn-primary" style={{ fontSize: '15px', padding: '12px 32px' }}>
             Open Workspace →

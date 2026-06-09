@@ -34,7 +34,7 @@ export default function Footer() {
             {[
               { href: '/workspace', label: 'Workspace' },
               { href: '/toolbox', label: 'Toolbox' },
-              { href: '/assistant', label: 'Assistant' },
+              { href: '/assistant', label: 'AI Chat' },
               { href: '/local', label: 'How It Works' },
             ].map(({ href, label }) => (
               <Link key={href} href={href} style={{ display: 'block', fontSize: '13px', color: 'var(--text-secondary)', textDecoration: 'none', marginBottom: '6px' }}>
@@ -58,7 +58,42 @@ export default function Footer() {
           </div>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+        {/* Bounty attribution block */}
+        <div style={{
+          borderTop: '1px solid var(--border)',
+          borderBottom: '1px solid var(--border)',
+          padding: '16px 0',
+          marginBottom: '16px',
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '12px',
+        }}>
+          <p style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: '640px' }}>
+            This project is a technical replication of{' '}
+            <a href="https://vibesterz.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+              Vibesterz (vibesterz.com)
+            </a>
+            {' '}built as a Pump.fun bounty submission. All original concepts, product design, and architecture belong to the Vibesterz team.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px', flexShrink: 0 }}>
+            <span style={{
+              fontSize: '11px',
+              padding: '3px 10px',
+              border: '1px solid var(--accent)',
+              borderRadius: 'var(--radius-full)',
+              color: 'var(--accent)',
+              fontWeight: 500,
+              whiteSpace: 'nowrap',
+            }}>
+              Pump.fun Bounty Submission
+            </span>
+            <span style={{ fontSize: '11px', color: 'var(--text-disabled)' }}>Not affiliated with Vibesterz</span>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
           <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
             © 2024 OnDevAI. Your data never leaves your device.
           </p>

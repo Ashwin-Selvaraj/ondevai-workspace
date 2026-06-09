@@ -1,5 +1,4 @@
 'use client';
-import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Zap } from 'lucide-react';
@@ -14,7 +13,6 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav style={{
@@ -41,7 +39,6 @@ export default function Navbar() {
         color: 'var(--text-primary)',
         fontWeight: 600,
         fontSize: '14px',
-        marginRight: '12px',
         flexShrink: 0,
       }}>
         <span style={{
@@ -58,8 +55,29 @@ export default function Navbar() {
         OnDevAI
       </Link>
 
+      {/* Bounty badge */}
+      <a
+        href="https://vibesterz.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          fontSize: '11px',
+          color: 'var(--text-muted)',
+          textDecoration: 'none',
+          padding: '2px 8px',
+          border: '1px solid var(--border)',
+          borderRadius: 'var(--radius-full)',
+          whiteSpace: 'nowrap',
+          flexShrink: 0,
+          transition: 'color 0.15s, border-color 0.15s',
+        }}
+        className="bounty-badge"
+      >
+        Vibesterz replication · Pump.fun Bounty
+      </a>
+
       {/* Desktop nav links */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '2px', flex: 1 }} className="hidden-mobile">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '2px', flex: 1, marginLeft: '8px' }} className="hidden-mobile">
         {NAV_LINKS.map(({ href, label }) => {
           const active = pathname === href;
           return (
@@ -79,7 +97,7 @@ export default function Navbar() {
         })}
       </div>
 
-      {/* Right side */}
+      {/* CTA */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginLeft: 'auto' }}>
         <Link href="/workspace" className="btn btn-primary" style={{ fontSize: '12px', padding: '5px 12px' }}>
           Open Workspace
@@ -88,6 +106,7 @@ export default function Navbar() {
 
       <style>{`
         @media (max-width: 768px) { .hidden-mobile { display: none !important; } }
+        .bounty-badge:hover { color: var(--accent) !important; border-color: var(--accent) !important; }
       `}</style>
     </nav>
   );
