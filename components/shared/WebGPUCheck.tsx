@@ -9,12 +9,13 @@ export default function WebGPUCheck() {
 
   useEffect(() => {
     async function check() {
-      if (!navigator.gpu) {
+      const gpu = (navigator as Navigator & { gpu?: { requestAdapter(): Promise<unknown> } }).gpu;
+      if (!gpu) {
         setStatus('unsupported');
         return;
       }
       try {
-        const adapter = await navigator.gpu.requestAdapter();
+        const adapter = await gpu.requestAdapter();
         setStatus(adapter ? 'supported' : 'unsupported');
       } catch {
         setStatus('unsupported');

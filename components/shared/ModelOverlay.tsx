@@ -26,9 +26,10 @@ export default function ModelOverlay({ routePrefixes = ['/workspace', '/toolbox'
   // Check WebGPU once
   useEffect(() => {
     async function check() {
-      if (!navigator.gpu) { setGpuStatus('fail'); return; }
+      const gpu = (navigator as Navigator & { gpu?: { requestAdapter(): Promise<unknown> } }).gpu;
+      if (!gpu) { setGpuStatus('fail'); return; }
       try {
-        const adapter = await navigator.gpu.requestAdapter();
+        const adapter = await gpu.requestAdapter();
         setGpuStatus(adapter ? 'ok' : 'fail');
       } catch {
         setGpuStatus('fail');
